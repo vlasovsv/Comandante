@@ -1,3 +1,7 @@
+Comandante
+=======
+![CI](https://github.com/vlasovsv/Comandante/workflows/.NET/badge.svg)
+
 **Comandante** is a small and simple library that was developed to make easier developing CQRS applications.
 
 ## Setup
