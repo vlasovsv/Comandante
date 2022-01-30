@@ -99,7 +99,7 @@ public class GetUserQueryHandler : IQueryHandler<GetUserQuery, User>
     }
 }
 ```
-Finally, send a command through the command dispatcher `IQueryDispatcher`:
+Finally, send a query through the query dispatcher `IQueryDispatcher`:
 ```csharp
 var query = new GetUserQuery(42)
 var user = await dispatcher.Dispatch<GetUserQuery, User>(query, default);
