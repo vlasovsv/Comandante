@@ -39,7 +39,6 @@ Comandante provides two types of messages:
 * `IQuery` for query operations that retrieve some information
 
 ### Commands
-
 Command message is just a simple POCO class that implements `ICommand` interface
 ```csharp
 public class CreateUserCommand : ICommand<long>
@@ -68,4 +67,37 @@ Finally, send a command through the command dispatcher `ICommandDispatcher`:
 var cmd = new CreateUserCommand("test");
 var userId = await dispatcher.Dispatch<CreateUserCommand, long>(cmd, default);
 Debug.WriteLine(userId); // 42
+```
+
+### Queries
+Query message is also a simple POCO class that implements `IQuery` interface
+```csharp
+public class GetUserQuery : IQuery<User>
+{
+    public GetUserQuery(long userId)
+    {
+        UserId = userId;
+    }
+
+    public long UserId { get; }
+}
+```
+
+Next, create a handler:
+```csharp
+public record User(long UserId, string UserName);
+
+public class GetUserQueryHandler : IQueryHandler<GetUserQuery, User>
+{
+    public Task<User> Handle(GetUserQuery query, CancellationToken cancellationToken)
+    {
+        return Task.FromResult(new User(42, "The one"));
+    }
+}
+```
+Finally, send a command through the command dispatcher `IQueryDispatcher`:
+```csharp
+var query = new GetUserQuery(42)
+var user = await dispatcher.Dispatch<GetUserQuery, User>(query, default);
+Debug.WriteLine(user.ToString()); // User { UserId = 42, UserName = The one }
 ```
