@@ -1,35 +1,36 @@
 using System;
 using System.Threading.Tasks;
+using Comandante.Tests.Commands;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
-namespace Comandante.Tests.Commands
+namespace Comandante.Tests.Queries
 {
-    public class CommandTests
+    public class QueryTests
     {
         private IServiceProvider _provider;
         
-        public CommandTests()
+        public QueryTests()
         {
             var conf = new ServiceCollection();
             conf.AddComandate(this.GetType().Assembly);
-            conf.Decorate(typeof(ICommandHandler<,>), typeof(CommandDecorator<,>));
             _provider = conf.BuildServiceProvider();
         }
         
         [Fact]
-        public async Task Command_Handle_As_Expected()
+        public async Task Query_Handle_As_Expected()
         {
             // ARRANGE
-            var cmd = new CreateUserCommand("The one");
-            var sut = _provider.GetRequiredService<ICommandDispatcher>();
+            var query = new GetUserQuery(42);
+            var sut = _provider.GetRequiredService<IQueryDispatcher>();
 
             // ACT
-            var userId = await sut.Dispatch<CreateUserCommand, long>(cmd, default);
+            var user = await sut.Dispatch<GetUserQuery, User>(query, default);
 
             // ASSERT
-            userId.Should().Be(42);
+            user.UserId.Should().Be(42);
+            user.UserName.Should().Be("The one");
         }
     }
 }
