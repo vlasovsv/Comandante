@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Comandante", "src\Comandante\Comandante.csproj", "{29BE9568-3C1E-4AC4-8214-294803863215}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Comandante.Tests", "src\Comandante.Tests\Comandante.Tests.csproj", "{F953EC42-1408-40EE-9502-641CF6F9E911}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Comandante.Extensions.Microsoft.DependencyInjection", "src\Comandante.Extensions.Microsoft.DependencyInjection\Comandante.Extensions.Microsoft.DependencyInjection.csproj", "{50B71E9D-A177-46D9-BBF5-5D8027803A67}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{29BE9568-3C1E-4AC4-8214-294803863215}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29BE9568-3C1E-4AC4-8214-294803863215}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29BE9568-3C1E-4AC4-8214-294803863215}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29BE9568-3C1E-4AC4-8214-294803863215}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F953EC42-1408-40EE-9502-641CF6F9E911}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F953EC42-1408-40EE-9502-641CF6F9E911}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F953EC42-1408-40EE-9502-641CF6F9E911}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F953EC42-1408-40EE-9502-641CF6F9E911}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50B71E9D-A177-46D9-BBF5-5D8027803A67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50B71E9D-A177-46D9-BBF5-5D8027803A67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50B71E9D-A177-46D9-BBF5-5D8027803A67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50B71E9D-A177-46D9-BBF5-5D8027803A67}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
