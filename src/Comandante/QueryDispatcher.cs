@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -24,17 +25,27 @@ namespace Comandante
         /// </summary>
         /// <param name="query">A query</param>
         /// <param name="cancellationToken">A cancellation token</param>
-        /// <typeparam name="TQuery">A query type</typeparam>
-        /// <typeparam name="TQueryResult">A query result</typeparam>
+        /// <typeparam name="TQueryResult">A query result type</typeparam>
         /// <returns>
         /// Returns a task that represents a query operation. The task result contains a query handler response.
         /// </returns>
-        public Task<TQueryResult> Dispatch<TQuery, TQueryResult>(TQuery query, CancellationToken cancellationToken)
-            where TQuery : IQuery<TQueryResult>
+        public Task<TQueryResult> Dispatch<TQueryResult>(IQuery<TQueryResult> query, CancellationToken cancellationToken)
         {
-            var handler = _serviceFactory.GetService<IQueryHandler<TQuery, TQueryResult>>();
+            if (query is null)
+                throw new ArgumentException("Command cannot be null");
 
-            return handler.Handle(query, cancellationToken);
+            var queryType = query.GetType();
+            var handlerType = typeof(IQueryHandler<,>).MakeGenericType(queryType, typeof(TQueryResult));
+
+            var handler = _serviceFactory.GetService(handlerType);
+
+            if (handler is null)
+                throw new ComandanteException(
+                    $"Handler was not found for query of type {queryType}. Register your handlers with the container.");
+            
+            var magicMethod = handlerType.GetMethod("Handle");
+
+            return (Task<TQueryResult>)magicMethod.Invoke(handler, new object[] { query, cancellationToken });
         }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -18,24 +19,33 @@ namespace Comandante
         {
             _serviceFactory = serviceFactory;
         }
-        
+
         /// <summary>
         /// Asynchronously dispatches a command to a single command handler
         /// </summary>
         /// <param name="command">A command</param>
         /// <param name="cancellationToken">A cancellation token</param>
-        /// <typeparam name="TCommand">A command type</typeparam>
         /// <typeparam name="TCommandResult">A command result</typeparam>
         /// <returns>
         /// Returns a task that represents a command operation. The task result contains a command handler response.
         /// </returns>
-        public Task<TCommandResult> Dispatch<TCommand, TCommandResult>(TCommand command, 
-            CancellationToken cancellationToken)
-            where TCommand: ICommand<TCommandResult>
+        public Task<TCommandResult> Dispatch<TCommandResult>(ICommand<TCommandResult> command, CancellationToken cancellationToken)
         {
-            var handler = _serviceFactory.GetService<ICommandHandler<TCommand, TCommandResult>>();
+            if (command is null)
+                throw new ArgumentException("Command cannot be null");
 
-            return handler.Handle(command, cancellationToken);
+            var commandType = command.GetType();
+            var handlerType = typeof(ICommandHandler<,>).MakeGenericType(commandType, typeof(TCommandResult));
+
+            var handler = _serviceFactory.GetService(handlerType);
+            
+            if (handler is null)
+                throw new ComandanteException(
+                    $"Handler was not found for command of type {commandType}. Register your handlers with the container.");
+            
+            var magicMethod = handlerType.GetMethod("Handle");
+
+            return (Task<TCommandResult>)magicMethod.Invoke(handler, new object[] { command, cancellationToken });
         }
     }
 }

@@ -19,7 +19,7 @@ Otherwise, you have to implement `IServiceFactory`
 ```csharp
 public class ServiceFactory : IServiceFactory
 {   
-    public TService GetService<TService>()
+    public object GetService(Type serviceType)
     {
         // Creates a new service
     }
@@ -69,7 +69,7 @@ public class CreateUserCommandHandler : ICommandHandler<CreateUserCommand, long>
 Finally, send a command through the command dispatcher `ICommandDispatcher`:
 ```csharp
 var cmd = new CreateUserCommand("test");
-var userId = await dispatcher.Dispatch<CreateUserCommand, long>(cmd, default);
+var userId = await dispatcher.Dispatch(cmd, default);
 Debug.WriteLine(userId); // 42
 ```
 
@@ -102,6 +102,6 @@ public class GetUserQueryHandler : IQueryHandler<GetUserQuery, User>
 Finally, send a query through the query dispatcher `IQueryDispatcher`:
 ```csharp
 var query = new GetUserQuery(42)
-var user = await dispatcher.Dispatch<GetUserQuery, User>(query, default);
+var user = await dispatcher.Dispatch(query, default);
 Debug.WriteLine(user.ToString()); // User { UserId = 42, UserName = The one }
 ```

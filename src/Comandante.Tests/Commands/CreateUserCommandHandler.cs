@@ -7,7 +7,7 @@ namespace Comandante.Tests.Commands
     {
         public Task<long> Handle(CreateUserCommand command, CancellationToken cancellationToken)
         {
-            return Task.FromResult(42l);
+            return Task.FromResult(42L);
         }
     }
 }

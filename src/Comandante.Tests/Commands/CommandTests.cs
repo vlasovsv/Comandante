@@ -26,10 +26,21 @@ namespace Comandante.Tests.Commands
             var sut = _provider.GetRequiredService<ICommandDispatcher>();
 
             // ACT
-            var userId = await sut.Dispatch<CreateUserCommand, long>(cmd, default);
+            var userId = await sut.Dispatch(cmd, default);
 
             // ASSERT
             userId.Should().Be(42);
+        }
+        
+        [Fact]
+        public async Task Command_Without_Handler_Throws_Exception()
+        {
+            // ARRANGE
+            var query = new MissingCommand();
+            var sut = _provider.GetRequiredService<ICommandDispatcher>();
+
+            // ACT + ASSERT
+            await Assert.ThrowsAsync<ComandanteException>(() => sut.Dispatch(query, default));
         }
     }
 }
