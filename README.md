@@ -6,7 +6,7 @@ Comandante
 
 ## Setup
 Install the package via NuGet first:
-`Install-Package Comandante`
+`Install-Package Commandante`
 
 Comandante has separate pipeline for commands and queries. That principle let you optimize processing commands and queries independently from one another.
 
@@ -27,7 +27,7 @@ public class ServiceFactory : IServiceFactory
 ```
 
 ### ASP.NET Core (or .NET Core in general)
-To register all necessary Comandante handlers and dispatchers you can use Comandante.Extensions.Microsoft.DependencyInjection method
+To register all necessary Comandante handlers and dispatchers you can use Commandante.Extensions.Microsoft.DependencyInjection method
 ```csharp
 public void ConfigureServices(IServiceCollection services)
 {
