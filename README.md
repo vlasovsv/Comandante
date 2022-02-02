@@ -1,6 +1,7 @@
 Comandante
 =======
 ![CI](https://github.com/vlasovsv/Comandante/workflows/.NET/badge.svg)
+[![NuGet](https://img.shields.io/nuget/v/Commandante.svg)](https://www.nuget.org/packages/Commandante/)
 
 **Comandante** is a small and simple library that was developed to make easier developing CQRS applications.
 
