@@ -32,7 +32,7 @@ namespace Comandante
         public Task<TQueryResult> Dispatch<TQueryResult>(IQuery<TQueryResult> query, CancellationToken cancellationToken)
         {
             if (query is null)
-                throw new ArgumentException("Command cannot be null");
+                throw new ArgumentException("Query cannot be null");
 
             var queryType = query.GetType();
             var handlerType = typeof(IQueryHandler<,>).MakeGenericType(queryType, typeof(TQueryResult));
