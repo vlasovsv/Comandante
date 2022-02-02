@@ -4,7 +4,7 @@
         <TargetFrameworks>net5.0;netstandard2.0</TargetFrameworks>
         <Authors>Sergey Vlasov</Authors>
         <Description>A small and simple library that was developed to make easier developing CQRS applications.</Description>
-        <PackageId>Comandante</PackageId>
+        <PackageId>Commandante</PackageId>
         <PackageTags>mediator;cqrs;commands;queries</PackageTags>
         <PackageProjectUrl>https://github.com/vlasovsv/Comandante</PackageProjectUrl>
         <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>

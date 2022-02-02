@@ -5,7 +5,7 @@
         <RootNamespace>Comandante</RootNamespace>
         <Authors>Sergey Vlasov</Authors>
         <Description>Comandante extensions for ASP.NET Core</Description>
-        <PackageId>Comandante.Extensions.Microsoft.DependencyInjection</PackageId>
+        <PackageId>Commandante.Extensions.Microsoft.DependencyInjection</PackageId>
         <PackageTags>mediator;cqrs;commands;queries</PackageTags>
         <PackageProjectUrl>https://github.com/vlasovsv/Comandante</PackageProjectUrl>
         <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
