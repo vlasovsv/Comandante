@@ -106,3 +106,5 @@ var query = new GetUserQuery(42)
 var user = await dispatcher.Dispatch(query, default);
 Debug.WriteLine(user.ToString()); // User { UserId = 42, UserName = The one }
 ```
+
+### Decorators
