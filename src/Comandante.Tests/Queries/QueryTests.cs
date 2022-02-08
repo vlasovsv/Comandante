@@ -18,6 +18,17 @@ namespace Comandante.Tests.Queries
         }
         
         [Fact]
+        public async Task Query_Is_Null_Throws_ArgumentException()
+        {
+            // ARRANGE
+            GetUserQuery query = null;
+            var sut = _provider.GetRequiredService<IQueryDispatcher>();
+
+            // ACT + ASSERT
+            await Assert.ThrowsAsync<ArgumentException>(() => sut.Dispatch(query, default));
+        }
+        
+        [Fact]
         public async Task Query_Handle_As_Expected()
         {
             // ARRANGE

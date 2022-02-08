@@ -19,6 +19,17 @@ namespace Comandante.Tests.Commands
         }
         
         [Fact]
+        public async Task Command_Is_Null_Throws_ArgumentException()
+        {
+            // ARRANGE
+            CreateUserCommand cmd = null;
+            var sut = _provider.GetRequiredService<ICommandDispatcher>();
+
+            // ACT + ASSERT
+            await Assert.ThrowsAsync<ArgumentException>(() => sut.Dispatch(cmd, default));
+        }
+        
+        [Fact]
         public async Task Command_Handle_As_Expected()
         {
             // ARRANGE
