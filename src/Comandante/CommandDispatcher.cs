@@ -1,4 +1,5 @@
 using System;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -29,7 +30,7 @@ namespace Comandante
         /// <returns>
         /// Returns a task that represents a command operation. The task result contains a command handler response.
         /// </returns>
-        public Task<TCommandResult> Dispatch<TCommandResult>(ICommand<TCommandResult> command, CancellationToken cancellationToken)
+        public async Task<TCommandResult> Dispatch<TCommandResult>(ICommand<TCommandResult> command, CancellationToken cancellationToken)
         {
             if (command is null)
                 throw new ArgumentException("Command cannot be null");
@@ -45,7 +46,17 @@ namespace Comandante
             
             var magicMethod = handlerType.GetMethod("Handle");
 
-            return (Task<TCommandResult>)magicMethod.Invoke(handler, new object[] { command, cancellationToken });
+            try
+            {
+                var invocationResult = await (Task<TCommandResult>)magicMethod.Invoke(
+                    handler, new object[] { command, cancellationToken });
+
+                return invocationResult;
+            }
+            catch (TargetInvocationException e)
+            {
+                throw e.InnerException ?? e;
+            }
         }
     }
 }

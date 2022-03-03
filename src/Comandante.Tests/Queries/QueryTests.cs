@@ -53,5 +53,16 @@ namespace Comandante.Tests.Queries
             // ACT + ASSERT
             await Assert.ThrowsAsync<ComandanteException>(() => sut.Dispatch(query, default));
         }
+        
+        [Fact]
+        public async Task Query_Throws_Exception_QueryDispatcher_Rethrows_It()
+        {
+            // ARRANGE
+            var query = new ExceptionQuery();
+            var sut = _provider.GetRequiredService<IQueryDispatcher>();
+
+            // ACT + ASSERT
+            await Assert.ThrowsAsync<QueryException>(() => sut.Dispatch(query, default));
+        }
     }
 }

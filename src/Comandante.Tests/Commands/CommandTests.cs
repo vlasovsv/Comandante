@@ -47,11 +47,22 @@ namespace Comandante.Tests.Commands
         public async Task Command_Without_Handler_Throws_Exception()
         {
             // ARRANGE
-            var query = new MissingCommand();
+            var cmd = new MissingCommand();
             var sut = _provider.GetRequiredService<ICommandDispatcher>();
 
             // ACT + ASSERT
-            await Assert.ThrowsAsync<ComandanteException>(() => sut.Dispatch(query, default));
+            await Assert.ThrowsAsync<ComandanteException>(() => sut.Dispatch(cmd, default));
+        }
+
+        [Fact]
+        public async Task Command_Throws_Exception_CommandDispatcher_Rethrows_It()
+        {
+            // ARRANGE
+            var query = new ExceptionCommand();
+            var sut = _provider.GetRequiredService<ICommandDispatcher>();
+
+            // ACT + ASSERT
+            await Assert.ThrowsAsync<CommandException>(() => sut.Dispatch(query, default));
         }
     }
 }

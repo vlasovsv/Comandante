@@ -8,6 +8,7 @@ namespace Comandante.Benchmarks
 {
     [MemoryDiagnoser]
     [SimpleJob(RuntimeMoniker.Net50)]
+    [SimpleJob(RuntimeMoniker.Net60)]
     public class ComandanteBenchmark
     {
         private IQueryDispatcher _queryDispatcher;

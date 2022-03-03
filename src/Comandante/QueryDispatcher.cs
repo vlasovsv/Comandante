@@ -1,4 +1,5 @@
 using System;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -29,7 +30,7 @@ namespace Comandante
         /// <returns>
         /// Returns a task that represents a query operation. The task result contains a query handler response.
         /// </returns>
-        public Task<TQueryResult> Dispatch<TQueryResult>(IQuery<TQueryResult> query, CancellationToken cancellationToken)
+        public async Task<TQueryResult> Dispatch<TQueryResult>(IQuery<TQueryResult> query, CancellationToken cancellationToken)
         {
             if (query is null)
                 throw new ArgumentException("Query cannot be null");
@@ -45,7 +46,17 @@ namespace Comandante
             
             var magicMethod = handlerType.GetMethod("Handle");
 
-            return (Task<TQueryResult>)magicMethod.Invoke(handler, new object[] { query, cancellationToken });
+            try
+            {
+                var invocationResult = await (Task<TQueryResult>)magicMethod.Invoke(
+                    handler, new object[] { query, cancellationToken });
+
+                return invocationResult;
+            }
+            catch (TargetInvocationException e)
+            {
+                throw e.InnerException ?? e;
+            }
         }
     }
 }
