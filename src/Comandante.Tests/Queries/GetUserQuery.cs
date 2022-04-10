@@ -1,6 +1,6 @@
 namespace Comandante.Tests.Queries
 {
-    public class GetUserQuery : IQuery<User>
+    public class GetUserQuery : IQuery<GetUserQuery, User>
     {
         public GetUserQuery(long userId)
         {

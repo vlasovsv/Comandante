@@ -20,32 +20,24 @@ namespace Comandante
             _serviceFactory = serviceFactory;
         }
 
-        /// <summary>
-        /// Asynchronously dispatches a command to a single command handler
-        /// </summary>
-        /// <param name="command">A command</param>
-        /// <param name="cancellationToken">A cancellation token</param>
-        /// <typeparam name="TCommandResult">A command result</typeparam>
-        /// <returns>
-        /// Returns a task that represents a command operation. The task result contains a command handler response.
-        /// </returns>
-        public Task<TCommandResult> Dispatch<TCommandResult>(ICommand<TCommandResult> command, CancellationToken cancellationToken)
+        /// <inheritdoc cref="ICommandDispatcher.Dispatch{TCommand,TCommandResult}"/>
+        public Task<TCommandResult> Dispatch<TCommand, TCommandResult>(
+            ICommand<TCommand, TCommandResult> command,
+            CancellationToken cancellationToken
+        ) where TCommand : ICommand<TCommand, TCommandResult>
         {
-            if (command is null)
-                throw new ArgumentException("Command cannot be null");
+            if (!(command is TCommand concreteCommand))
+            {
+                throw new ArgumentException($"Command must be an instance of {typeof(TCommand)}");
+            }
 
-            var commandType = command.GetType();
-            var handlerType = typeof(ICommandHandler<,>).MakeGenericType(commandType, typeof(TCommandResult));
-
-            var handler = _serviceFactory.GetService(handlerType);
+            var handler = _serviceFactory.GetService<ICommandHandler<TCommand, TCommandResult>>();
             
             if (handler is null)
                 throw new ComandanteException(
-                    $"Handler was not found for command of type {commandType}. Register your handlers with the container.");
-            
-            var magicMethod = handlerType.GetMethod("Handle");
+                    $"Handler was not found for command of type {typeof(TCommand)}. Register your handlers with the container.");
 
-            return (Task<TCommandResult>)magicMethod.Invoke(handler, new object[] { command, cancellationToken });
+            return handler.Handle(concreteCommand, cancellationToken);
         }
     }
 }

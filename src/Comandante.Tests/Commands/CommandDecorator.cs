@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 namespace Comandante.Tests.Commands
 {
     public class CommandDecorator<TCommand, TCommandResult> : ICommandHandler<TCommand, TCommandResult>
-        where TCommand : ICommand<TCommandResult>
+        where TCommand : ICommand<TCommand, TCommandResult>
     {
         private readonly ICommandHandler<TCommand, TCommandResult> _decoratee;
 

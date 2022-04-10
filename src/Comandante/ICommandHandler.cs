@@ -9,7 +9,7 @@ namespace Comandante
     /// <typeparam name="TCommand">A command type</typeparam>
     /// <typeparam name="TCommandResult">A command type result</typeparam>
     public interface ICommandHandler<in TCommand, TCommandResult>
-        where TCommand : ICommand<TCommandResult>
+        where TCommand : ICommand<TCommand, TCommandResult>
     {
         /// <summary>
         /// Asynchronously handles a single command
