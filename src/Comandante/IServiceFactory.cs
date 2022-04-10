@@ -1,5 +1,3 @@
-using System;
-
 namespace Comandante
 {
     /// <summary>
@@ -10,10 +8,10 @@ namespace Comandante
         /// <summary>
         /// Creates a new service by requested type
         /// </summary>
-        /// <param name="serviceType">A service type</param>
+        /// <typeparam name="T">A service type</typeparam>
         /// <returns>
         /// Returns the requested service
         /// </returns>
-        object GetService(Type serviceType);
+        T GetService<T>();
     }
 }

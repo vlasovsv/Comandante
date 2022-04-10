@@ -1,4 +1,5 @@
 using System;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Comandante
 {
@@ -11,9 +12,9 @@ namespace Comandante
             _serviceProvider = serviceProvider;
         }
 
-        public object GetService(Type serviceType)
+        public T GetService<T>()
         {
-            return _serviceProvider.GetService(serviceType);
+            return _serviceProvider.GetService<T>();
         }
     }
 }

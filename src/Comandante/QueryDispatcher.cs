@@ -20,32 +20,24 @@ namespace Comandante
             _serviceFactory = serviceFactory;
         }
         
-        /// <summary>
-        /// Asynchronously dispatches a query to a single query handler
-        /// </summary>
-        /// <param name="query">A query</param>
-        /// <param name="cancellationToken">A cancellation token</param>
-        /// <typeparam name="TQueryResult">A query result type</typeparam>
-        /// <returns>
-        /// Returns a task that represents a query operation. The task result contains a query handler response.
-        /// </returns>
-        public Task<TQueryResult> Dispatch<TQueryResult>(IQuery<TQueryResult> query, CancellationToken cancellationToken)
+        /// <inheritdoc cref="IQueryDispatcher.Dispatch{TQuery,TQueryResult}"/>
+        public Task<TQueryResult> Dispatch<TQuery, TQueryResult>(
+            IQuery<TQuery, TQueryResult> query,
+            CancellationToken cancellationToken
+        ) where TQuery : IQuery<TQuery, TQueryResult>
         {
-            if (query is null)
-                throw new ArgumentException("Query cannot be null");
+            if (!(query is TQuery concreteQuery))
+            {
+                throw new ArgumentException($"Query must be an instance of {typeof(TQuery)}");
+            }
 
-            var queryType = query.GetType();
-            var handlerType = typeof(IQueryHandler<,>).MakeGenericType(queryType, typeof(TQueryResult));
-
-            var handler = _serviceFactory.GetService(handlerType);
+            var handler = _serviceFactory.GetService<IQueryHandler<TQuery, TQueryResult>>();
 
             if (handler is null)
                 throw new ComandanteException(
-                    $"Handler was not found for query of type {queryType}. Register your handlers with the container.");
-            
-            var magicMethod = handlerType.GetMethod("Handle");
+                    $"Handler was not found for query of type {typeof(TQuery)}. Register your handlers with the container.");
 
-            return (Task<TQueryResult>)magicMethod.Invoke(handler, new object[] { query, cancellationToken });
+            return handler.Handle(concreteQuery, cancellationToken);
         }
     }
 }

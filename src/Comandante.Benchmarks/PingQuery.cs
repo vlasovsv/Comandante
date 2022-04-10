@@ -1,6 +1,6 @@
 namespace Comandante.Benchmarks
 {
-    public class PingQuery : IQuery<Pong>
+    public class PingQuery : IQuery<PingQuery, Pong>
     {
         
     }

@@ -1,6 +1,6 @@
 namespace Comandante.Tests.Commands
 {
-    public class MissingCommand : ICommand<long>
+    public class MissingCommand : ICommand<MissingCommand, long>
     {
         
     }

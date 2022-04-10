@@ -9,7 +9,7 @@ namespace Comandante
     /// <typeparam name="TQuery">A query type</typeparam>
     /// <typeparam name="TQueryResult">A query result</typeparam>
     public interface IQueryHandler<in TQuery, TQueryResult>
-        where TQuery: IQuery<TQueryResult>
+        where TQuery: IQuery<TQuery, TQueryResult>
     {
         /// <summary>
         /// Asynchronously handles a single query
